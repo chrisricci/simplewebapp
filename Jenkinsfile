@@ -2,9 +2,9 @@ node {
   def project = 'chris_ricci'
   def appName = 'simplewebapp'
   def feSvcName = "${appName}"
-  def imageTag = "quay.io/${project}/${appName}:${env.BRANCH_NAME}-v${env.BUILD_NUMBER}"
   def namespace = 'production'
   checkout scm
+  def imageTag = "quay.io/${project}/${appName}:${env.BRANCH_NAME}-v${env.BUILD_NUMBER}"
 
   stage 'Login to Docker'
   sh("docker login -u=\"${env.quay_username}\" -p=\"${env.quay_password}\" quay.io")
@@ -43,7 +43,7 @@ node {
         // Create namespace if it doesn't exist
         sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
         // Don't use public load balancing for development branches
-        sh("sed -i.bak 's#quay.io/chris_ricci/simplewebapp:.*\$#${imageTag}#' ./k8s/dev/*.yaml")
+        sh("sed -i.bak 's#quay.io/chris_ricci/simplewebapp:.*\$#${imageTag}#' ./k8s/deployments/*.yaml")
         sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services/")
         sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/deployments/")
         echo 'To access your environment run `kubectl proxy`'
