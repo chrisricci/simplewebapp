@@ -6,6 +6,9 @@ node {
   def namespace = 'production'
   checkout scm
 
+  stage 'Login to Docker'
+  sh('docker login -u="${env.quay_username}" -p="${env.quay_password}" quay.io')
+	
   stage 'Build image'
   sh("docker build -t ${imageTag} .")
 
