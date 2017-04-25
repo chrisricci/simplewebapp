@@ -45,7 +45,7 @@ node {
         // Don't use public load balancing for development branches
         sh("sed -i.bak 's#quay.io/chris_ricci/simplewebapp:.*\$#${imageTag}#' ./k8s/dev/*.yaml")
         sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services/")
-        sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/")
+        sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/deployments/")
         echo 'To access your environment run `kubectl proxy`'
         echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${env.BRANCH_NAME}/services/${feSvcName}:80/"
   }
