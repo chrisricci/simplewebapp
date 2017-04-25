@@ -2,7 +2,7 @@ node {
   def project = 'chris_ricci'
   def appName = 'simplewebapp'
   def feSvcName = "${appName}"
-  def imageTag = "quay.io/${project}/${appName}:v${env.BUILD_NUMBER}"
+  def imageTag = "quay.io/${project}/${appName}:${env.BRANCH_NAME}-v${env.BUILD_NUMBER}"
   def namespace = 'production'
   checkout scm
 
