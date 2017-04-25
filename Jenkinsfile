@@ -3,9 +3,9 @@ node {
   def appName = 'simplewebapp'
   def feSvcName = "${appName}"
   def namespace = 'production'
+  def imageTag = "quay.io/${project}/${appName}:${env.BRANCH_NAME}.v${env.BUILD_NUMBER}"
   checkout scm
-  def imageTag = "quay.io/${project}/${appName}:${env.BRANCH_NAME}-v${env.BUILD_NUMBER}"
-
+	
   stage 'Login to Docker'
   sh("docker login -u=\"${env.quay_username}\" -p=\"${env.quay_password}\" quay.io")
 	
