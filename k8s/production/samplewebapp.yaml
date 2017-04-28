@@ -2,7 +2,8 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    run: simplewebapp 
+    app: simplewebapp 
+    env: production
   name: simplewebapp
 spec:
   replicas: 3
