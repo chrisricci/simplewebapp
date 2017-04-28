@@ -27,6 +27,6 @@ node {
   sh("sed -i.bak 's#quay.io/chris_ricci/simplewebapp:.*\$#canary#' ./k8s/canary/*.yaml")
   sh("kubectl --namespace=${namespace} apply -f k8s/services/")
   sh("kubectl --namespace=${namespace} apply -f k8s/canary/")
-  sh("echo http://`kubectl --namespace=${namespace} get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
-  break
+  //sh("echo http://`kubectl --namespace=${namespace} get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
+  //break
 }
