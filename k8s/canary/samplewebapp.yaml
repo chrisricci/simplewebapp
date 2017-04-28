@@ -2,13 +2,14 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    run: hello-world
-  name: hello-world
+    run: simplewebapp 
+  name: simplewebapp
 spec:
   replicas: 3
   selector:
     matchLabels:
-      run: hello-world
+      app: simplewebapp
+      env: canary
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -17,12 +18,12 @@ spec:
   template:
     metadata:
       labels:
-        run: hello-world
+        run: simplewebapp
     spec:
       containers:
       - image: quay.io/chris_ricci/simplewebapp:v21
         imagePullPolicy: IfNotPresent
-        name: hello-world
+        name: simplewebapp
         ports:
         - containerPort: 80
           protocol: TCP
