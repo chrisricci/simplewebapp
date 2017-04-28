@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        run: simplewebapp
+        app: simplewebapp
     spec:
       containers:
       - image: quay.io/chris_ricci/simplewebapp:v21
