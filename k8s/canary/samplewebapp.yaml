@@ -2,14 +2,11 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    run: simplewebapp 
+    app: simplewebapp 
+    env: canary
   name: simplewebapp
 spec:
   replicas: 3
-  selector:
-    matchLabels:
-      app: simplewebapp
-      env: canary
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -18,7 +15,7 @@ spec:
   template:
     metadata:
       labels:
-        run: simplewebapp
+        app: simplewebapp
     spec:
       containers:
       - image: quay.io/chris_ricci/simplewebapp:v21
