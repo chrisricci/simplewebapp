@@ -9,7 +9,7 @@ node {
   stage 'Printenv'
   sh("printenv")
 	
-  stage 'Login to Docker'
+  stage 'Login to Quay.io'
   sh("docker login -u=\"${env.quay_username}\" -p=\"${env.quay_password}\" quay.io")
 	
   stage 'Build image'
