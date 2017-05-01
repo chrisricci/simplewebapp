@@ -1,6 +1,6 @@
 node {
   def project = 'chris_ricci'
-  def appName = 'simplewebapp'
+  def appName = 'simplewebapp-pipeline'
   def feSvcName = "${appName}"
   def namespace = 'production'
   def imageTag = "quay.io/${project}/${appName}:production.v${env.BUILD_NUMBER}"
