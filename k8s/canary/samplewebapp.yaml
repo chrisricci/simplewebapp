@@ -4,18 +4,14 @@ metadata:
   labels:
     app: simplewebapp 
     env: canary
-  name: simplewebapp
+  name: simplewebapp-canary
 spec:
-  replicas: 3
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
+  replicas: 1
   template:
     metadata:
       labels:
         app: simplewebapp
+        env: canary
     spec:
       containers:
       - image: quay.io/chris_ricci/simplewebapp:v21
