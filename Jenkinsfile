@@ -57,7 +57,7 @@ node {
     
     // Apply version label to deployment
     sh("kubectl --namespace=${namespace} label deployment ${appName}-${newColor} --overwrite version=v${BUILD_NUMBER}")
-    sh("kubectl --namespace=${namespace} label pod  -l color=${newColor} --all --overwrite version=v${BUILD_NUMBER}"
+    sh("kubectl --namespace=${namespace} label pod  -l color=${newColor} --all --overwrite version=v${BUILD_NUMBER}")
   }
   stage 'Verify'
   def didTimeout = false
