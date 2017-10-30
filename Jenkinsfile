@@ -50,7 +50,7 @@ node {
     // If current deployment is blue, then deploy to green
     if (currentDeployment == '${appName}-blue') {
       newColor = 'green'
-    else {
+    } else {
       newColor = 'blue'
     }
     sh("kubectl --namespace=${namespace} set image deployment/${appName}-${newColor} simplewebapp=${imageTag}")
