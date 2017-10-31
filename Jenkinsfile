@@ -77,7 +77,7 @@ node {
   if (!firstDeploy) {
   stage 'Rollout to Production' 
     // Update Ingress Rule to point to new color
-    sh("kubectl patch ing ${ingName} --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/rules[0]/http/paths[0]/backend/serviceName\", \"value\":\"${appName}-${newColor}\"}]'")
+	  sh("kubectl patch ing ${ingName} --namespace=${namespace} --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/rules[0]/http/paths[0]/backend/serviceName\", \"value\":\"${appName}-${newColor}\"}]'")
     currentBuild.result = 'SUCCESS'
   }
 }
