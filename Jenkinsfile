@@ -2,7 +2,8 @@
   
 def project = 'chris_ricci'
 def appName = 'simplewebapp'
-def ingName = 'simplewebapp'
+def ingName = 'simplewebapp' # Name of the production ingress rule
+def stageIngName = 'simplewebapp-staging' # Name of the staging ingress rule
 def namespace = 'blue-green'
 def imageTag = "quay.io/${project}/${appName}:v${env.BUILD_NUMBER}"
 def currentDeployment = ''
@@ -53,8 +54,12 @@ node {
     } else {
       newColor = 'blue'
     }
+    // Update deployment with latest image
     sh("kubectl --namespace=${namespace} set image deployment/${appName}-${newColor} simplewebapp=${imageTag}")
     
+    // Update staging ingress rule
+    sh("kubectl get ing ${stageIngName} --namespace=${namespace} -o yaml | sed 's/\\(serviceName: simplewebapp-\\).*\$/\\1${newColor}/' | kubectl replace -f -")
+
     // Apply version label to deployment
     sh("kubectl --namespace=${namespace} label deployment ${appName}-${newColor} --overwrite version=v${BUILD_NUMBER}")
     sh("kubectl --namespace=${namespace} label pod  -l color=${newColor} --all --overwrite version=v${BUILD_NUMBER}")
