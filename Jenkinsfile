@@ -60,9 +60,10 @@ node {
     // Update staging ingress rule
     sh("kubectl get ing ${stageIngName} --namespace=${namespace} -o yaml | sed 's/\\(serviceName: simplewebapp-\\).*\$/\\1${newColor}/' | kubectl replace -f -")
 
-    // Apply version label to deployment
+    // Apply version label to deployment, pods and ingress
     sh("kubectl --namespace=${namespace} label deployment ${appName}-${newColor} --overwrite version=v${BUILD_NUMBER}")
     sh("kubectl --namespace=${namespace} label pod  -l color=${newColor} --all --overwrite version=v${BUILD_NUMBER}")
+    sh("kubectl --namespace=${namespace} label ing ${stageIngName} --overwrite version=v${BUILD_NUMBER}")
   }
   stage 'Verify Staging'
   def didTimeout = false
@@ -80,9 +81,11 @@ node {
   }
 
   if (!firstDeploy) {
-  stage 'Rollout to Production' 
+    stage 'Rollout to Production' 
     // Update Ingress Rule to point to new color
-	  sh("kubectl get ing ${ingName} --namespace=${namespace} -o yaml | sed 's/\\(serviceName: simplewebapp-\\).*\$/\\1${newColor}/' | kubectl replace -f -")
+    sh("kubectl get ing ${ingName} --namespace=${namespace} -o yaml | sed 's/\\(serviceName: simplewebapp-\\).*\$/\\1${newColor}/' | kubectl replace -f -")
+    // Apply Version Label to Ingress
+    sh("kubectl --namespace=${namespace} label ing ${ingName} --overwrite version=v${BUILD_NUMBER}")
     currentBuild.result = 'SUCCESS'
   }
 }
