@@ -48,7 +48,7 @@ node {
     return
   } else {
     // If current deployment is blue, then deploy to green
-    if (currentDeployment == '${appName}-blue') {
+    if (currentDeployment == "${appName}-blue") {
       newColor = 'green'
     } else {
       newColor = 'blue'
