@@ -64,12 +64,12 @@ node {
     sh("kubectl --namespace=${namespace} label deployment ${appName}-${newColor} --overwrite version=v${BUILD_NUMBER}")
     sh("kubectl --namespace=${namespace} label pod  -l color=${newColor} --all --overwrite version=v${BUILD_NUMBER}")
   }
-  stage 'Verify'
+  stage 'Verify Staging'
   def didTimeout = false
   def userInput = true
   try {
     timeout(time:1, unit:'DAYS') {
-      userInput = input(id: 'promoteToProd', message: 'Approve rollout to ${newColor}?')
+      userInput = input(id: 'promoteToProd', message: 'Approve rollout to Production?')
       echo "userInput: [${userInput}]" 
     }
   } catch(err) { // timeout reached or input false
