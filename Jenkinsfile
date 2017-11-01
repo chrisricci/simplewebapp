@@ -54,6 +54,7 @@ node {
     } else {
       newColor = 'blue'
     }
+    stage 'Deploy to Staging'
     // Update deployment with latest image
     sh("kubectl --namespace=${namespace} set image deployment/${appName}-${newColor} simplewebapp=${imageTag}")
     
