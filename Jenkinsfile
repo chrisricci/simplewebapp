@@ -84,7 +84,9 @@ node {
     stage 'Rollout to Production' 
     // Update Ingress Rule to point to new color
     sh("kubectl get ing ${ingName} --namespace=${namespace} -o yaml | sed 's/\\(serviceName: simplewebapp-\\).*\$/\\1${newColor}/' | kubectl replace -f -")
-    // Apply Version Label to Ingress
+    // Apply version label to deployment, pods and ingress
+    sh("kubectl --namespace=${namespace} label deployment ${appName}-${newColor} --overwrite version=v${BUILD_NUMBER}")
+    sh("kubectl --namespace=${namespace} label pod  -l color=${newColor} --all --overwrite version=v${BUILD_NUMBER}")
     sh("kubectl --namespace=${namespace} label ing ${ingName} --overwrite version=v${BUILD_NUMBER}")
     currentBuild.result = 'SUCCESS'
   }
