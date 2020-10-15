@@ -1,3 +1,5 @@
-FROM	quay.io/chris_ricci/nginx-112-rhel7:1-16
+FROM	nginx
 COPY	index.html /usr/share/nginx/html
-COPY	coreos.com_files/ /usr/share/nginx/html/coreos.com_files/
+COPY	files/ /usr/share/nginx/html/files/
+EXPOSE 8080
+CMD ["/bin/sh", "-c", "sed -i 's/listen  .*/listen 8080;/g' /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"]
